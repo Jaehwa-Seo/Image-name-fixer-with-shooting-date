@@ -18,13 +18,16 @@ def image_name_fixer(folder_path):
         
         image.close()
         
-        try :
-            os.rename(folder_path + '/' +  file, folder_path + '/' + file_name + "." + file_extension)
-        
-        except Exception:
-            print("ghakdhask")
-            print()
+        change_file_name(folder_path + '/' +  file,folder_path,file_name,file_extension,0)
 
+def change_file_name(old_file,folder_path,file_name,file_extension,count):
+    try:
+        if(count == 0):
+            os.rename(old_file, folder_path + '/' + file_name + "." + file_extension)
+        else:
+            os.rename(old_file, folder_path + '/' + file_name + " (" + str(count) + ")." + file_extension)
+    except Exception:
+        change_file_name(old_file,folder_path,file_name,file_extension,count+1)
 
 def get_files_extension(file_path):
     tmp = file_path.split('.')
