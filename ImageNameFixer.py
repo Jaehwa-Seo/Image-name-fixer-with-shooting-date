@@ -5,6 +5,8 @@ from PIL import Image
 def image_name_fixer(folder_path):
     dirListing = os.listdir(folder_path)
 
+    print(len(dirListing))
+
     for file in dirListing:
         file_extension = get_files_extension(file)
         tmp_tim = None
@@ -16,6 +18,8 @@ def image_name_fixer(folder_path):
         
             image_info = image._getexif()
 
+            print(image_info)
+
             tmp_tim = image_info[36867].split()
             print(tmp_tim)
             date = tmp_tim[0].split(':')
@@ -24,9 +28,11 @@ def image_name_fixer(folder_path):
             file_name = date[0] + "-" + date[1] + "-" + date[2] 
             
         except Exception:
-            create_time = os.path.getctime('./image/'+file)
+            print("-------------------------------------------------")
+            create_time = os.path.getmtime('./image/'+file)
             create_timestamp = datetime.datetime.fromtimestamp(create_time)
             file_name = datetime.datetime.strftime(create_timestamp, '%Y-%m-%d')
+            image.close()
         
         change_file_name(folder_path + '/' +  file,folder_path,file_name,file_extension,0)
 
